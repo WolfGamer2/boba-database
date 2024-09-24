@@ -1,5 +1,5 @@
 const apiKey = 'pat84MLj08BHlZkVu.3971198ea6ee84cd5bf55710e507afa0a273d20c5c0e3c1724b4f4d01c285966';
-const baseId = '05mIKwNPO2l1vT/tblVV0tpvZnQWcsH4';
+const baseId = '05mIKwNPO2l1vT';
 const tableName = 'Boba - YSWS';
 
 // Airtables websites
