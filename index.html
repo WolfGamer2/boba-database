@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approved Websites by Event</title>
+    <style>
+        body {
+            font-family: 'Avenir Next', sans-serif;
+            background-color: #ffe69a; /* Light yellow background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff5a5f; /* Red like the button on Boba Hack Club */
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        #eventCode {
+            width: 300px;
+            padding: 12px;
+            border: 2px solid #ff5a5f; /* Red border */
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #eventCode:focus {
+            border-color: #ffa500; /* Orange border on focus */
+        }
+
+        button {
+            padding: 12px 25px;
+            margin-left: 10px;
+            background-color: #ff5a5f;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #ffa500; /* Change to orange on hover */
+        }
+
+        #website-list {
+            margin-top: 30px;
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        #website-list li {
+            background-color: white;
+            border: 2px solid #ff5a5f;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            transition: box-shadow 0.3s;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        #website-list li:hover {
+            box-shadow: 0 0 10px rgba(255, 90, 95, 0.5); /* Red shadow on hover */
+        }
+
+        #website-list a {
+            text-decoration: none;
+            color: #ff5a5f; /* Red links */
+            font-weight: bold;
+        }
+
+        #website-list a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #ff5a5f;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Approved Websites for Event</h1>
+    <input type="text" id="eventCode" placeholder="Enter Event Code" />
+    <button onclick="fetchWebsites()">Get Websites</button>
+
+    <ul id="website-list"></ul>
+    <div id="error-message" class="error-message"></div>
+
+    <script>
+        async function fetchWebsites() {
+            const eventCode = document.getElementById('eventCode').value.trim();
+            const websiteList = document.getElementById('website-list');
+            const errorMessage = document.getElementById('error-message');
+            websiteList.innerHTML = ''; // Clear previous list
+            errorMessage.textContent = ''; // Clear previous errors
+            
+            if (!eventCode) {
+                errorMessage.textContent = 'Please enter a valid event code.';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/get-websites/${eventCode}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not OK');
+                }
+
+                const websites = await response.json();
+                if (websites.length === 0) {
+                    errorMessage.textContent = `No websites found for event code: ${eventCode}`;
+                    return;
+                }
+
+                websites.forEach(site => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<a href="${site.url}" target="_blank">${site.url}</a>`;
+                    websiteList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Fetch error:', error);
+                errorMessage.textContent = 'An error occurred while fetching the websites. Please try again.';
+            }
+        }
+    </script>
+</body>
+</html>
