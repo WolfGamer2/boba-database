@@ -1,0 +1,110 @@
+body {
+    font-family: 'Avenir Next', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    color: #333;
+    transition: background 0.5s;
+}
+
+h1 {
+    color: #ff5a5f; /* Main red color */
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#eventCode {
+    width: 300px;
+    padding: 12px;
+    border: 2px solid #ff5a5f; /* Red border */
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0px 4px 10px rgba(255, 90, 95, 0.2);
+}
+
+#eventCode:focus {
+    border-color: #ffa500; /* Orange border on focus */
+    box-shadow: 0px 4px 20px rgba(255, 90, 95, 0.4); /* Enhanced shadow on focus */
+}
+
+button {
+    padding: 12px 25px;
+    margin-left: 10px;
+    background: linear-gradient(135deg, #ff5a5f, #ffa500);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(255, 90, 95, 0.4);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #ffa500, #ff5a5f);
+    box-shadow: 0px 6px 15px rgba(255, 90, 95, 0.6);
+}
+
+#website-list {
+    margin-top: 30px;
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+}
+
+#website-list li {
+    background-color: white;
+    border: 2px solid #ff5a5f;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    transition: box-shadow 0.3s, transform 0.3s;
+    font-size: 1.2em;
+    color: #333;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#website-list li:hover {
+    box-shadow: 0px 8px 20px rgba(255, 90, 95, 0.3);
+    transform: translateY(-3px);
+}
+
+#website-list a {
+    text-decoration: none;
+    color: #ff5a5f;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+#website-list a:hover {
+    color: #ffa500; /* Change to orange on hover */
+}
+
+.error-message {
+    color: #ff5a5f;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1.2em;
+    animation: shake 0.3s;
+}
+
+/* Error Message Shake Animation */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
