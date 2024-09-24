@@ -15,7 +15,7 @@ async function getWebsitesByEventCode(eventCode) {
         const data = await response.json();
 
         if (data.records.length > 0) {
-            return data.records.map(record => record.fields.Website); // Adjust 'Website' to your field name if needed
+            return data.records.map(record => record.fields.GitHub Pages URL); // Adjust 'Website' to your field name if needed
         } else {
             return [];
         }
@@ -28,13 +28,13 @@ async function getWebsitesByEventCode(eventCode) {
 // Event listener for the button click
 document.getElementById('getWebsites').addEventListener('click', async () => {
     // Get the value from the text box
-    const eventCode = document.getElementById('eventCode').value;
+    const eventCode = document.getElementById('Event Code').value;
 
     // Fetch websites for the entered event code
     const websites = await getWebsitesByEventCode(eventCode);
 
     // Display the websites
-    const websiteList = document.getElementById('website-list');
+    const websiteList = document.getElementById('Status');
     websiteList.innerHTML = '';
 
     if (websites.length > 0) {
