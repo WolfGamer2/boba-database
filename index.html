@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boba Drop Websites by Event</title>
+    <title>Boba Hackathon - Website Finder</title>
     <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+        /* General Styles */
         body {
-            font-family: 'Avenir Next', sans-serif;
-            background-color: #ffe69a; /* Light yellow background */
+            font-family: 'Inter', sans-serif;
+            background-color: #F9EAE8;
+            color: #343434;
             margin: 0;
             padding: 0;
             display: flex;
@@ -15,130 +20,177 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            text-align: center;
         }
 
         h1 {
-            color: #ff5a5f; /* Red like the button on Boba Hack Club */
-            font-size: 2.5em;
+            color: #5F275F;
+            text-align: center;
+            font-size: 3rem;
             margin-bottom: 20px;
         }
 
-        #eventCode {
-            width: 300px;
-            padding: 12px;
-            border: 2px solid #ff5a5f; /* Red border */
+        .container {
+            background-color: #FFFFFF;
             border-radius: 10px;
-            font-size: 16px;
-            outline: none;
+            padding: 30px;
+            max-width: 600px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #5F275F;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #D68AB3;
+            border-radius: 5px;
+            margin-bottom: 20px;
             transition: border-color 0.3s;
         }
 
-        #eventCode:focus {
-            border-color: #ffa500; /* Orange border on focus */
+        input:focus {
+            border-color: #B35CA6;
+            outline: none;
         }
 
         button {
-            padding: 12px 25px;
-            margin-left: 10px;
-            background-color: #ff5a5f;
+            background-color: #B35CA6;
             color: white;
+            padding: 12px 20px;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
+            border-radius: 5px;
+            font-size: 1.2rem;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: 100%;
         }
 
         button:hover {
-            background-color: #ffa500; /* Change to orange on hover */
+            background-color: #9F419B;
         }
 
-        #website-list {
-            margin-top: 30px;
-            list-style-type: none;
+        ul {
+            list-style: none;
             padding: 0;
-            width: 100%;
-            max-width: 600px;
         }
 
-        #website-list li {
-            background-color: white;
-            border: 2px solid #ff5a5f;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 10px;
-            transition: box-shadow 0.3s;
-            font-size: 1.1em;
-            color: #333;
+        li {
+            background-color: #F3D1F4;
+            border: 2px solid #E0A9E6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            word-wrap: break-word;
         }
 
-        #website-list li:hover {
-            box-shadow: 0 0 10px rgba(255, 90, 95, 0.5); /* Red shadow on hover */
-        }
-
-        #website-list a {
-            text-decoration: none;
-            color: #ff5a5f; /* Red links */
+        li a {
+            color: #5F275F;
             font-weight: bold;
+            text-decoration: none;
         }
 
-        #website-list a:hover {
+        li a:hover {
             text-decoration: underline;
         }
 
-        .error-message {
-            color: #ff5a5f;
-            margin-top: 20px;
-            font-weight: bold;
-            font-size: 1.2em;
+        li strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #B35CA6;
         }
     </style>
 </head>
 <body>
-    <h1>Boba Drop Websites for Event</h1>
-    <input type="text" id="eventCode" placeholder="Enter Event Code" />
-    <button onclick="fetchWebsites()">Get Websites</button>
 
-    <ul id="website-list"></ul>
-    <div id="error-message" class="error-message"></div>
+    <h1>Boba Hackathon Website Finder</h1>
+
+    <div class="container">
+        <label for="event-code">Enter Event Code:</label>
+        <input type="text" id="event-code" placeholder="e.g., ABC123" />
+        <button id="getWebsites">Find Websites</button>
+
+        <ul id="Status"></ul>
+    </div>
 
     <script>
-        async function fetchWebsites() {
-            const eventCode = document.getElementById('eventCode').value.trim();
-            const websiteList = document.getElementById('website-list');
-            const errorMessage = document.getElementById('error-message');
-            websiteList.innerHTML = ''; // Clear previous list
-            errorMessage.textContent = ''; // Clear previous errors
-            
-            if (!eventCode) {
-                errorMessage.textContent = 'Please enter a valid event code.';
-                return;
-            }
+        const apiKey = 'pat84MLj08BHlZkVu.87f94a21eafef0884ffa0e4ba1c822e4744fd35687c9bd71202f1b9038d5e705';
+        const baseId = 'app05mIKwNPO2l1vT';
+        const tableName = 'Boba - YSWS';
+
+        const eventCodeFieldId = 'fldJE64wXx0NtfFJY';   
+        const gitHubURLFieldId = 'fldiQTbHOJ4Smo2Cx';   
+        const statusFieldId = 'fldjRo5emakYHTKnY';       
+        const nameFieldId = 'fldeAMpKMvhiFAokN';         
+
+        // Function to fetch websites from Airtable based on the event code
+        async function getWebsitesByEventCode(eventCode) {
+            const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={${eventCodeFieldId}}="${eventCode}"`;
+
+            console.log('Fetching URL:', url); // Log the URL to check its correctness
 
             try {
-                const response = await fetch(`/api/get-websites/${eventCode}`);
-                if (!response.ok) {
-                    throw new Error('Network response was not OK');
-                }
-
-                const websites = await response.json();
-                if (websites.length === 0) {
-                    errorMessage.textContent = `No websites found for event code: ${eventCode}`;
-                    return;
-                }
-
-                websites.forEach(site => {
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `<a href="${site.url}" target="_blank">${site.url}</a>`;
-                    websiteList.appendChild(listItem);
+                const response = await fetch(url, {
+                    headers: {
+                        Authorization: `Bearer ${apiKey}`,
+                    },
                 });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                if (data.records.length > 0) {
+                    return data.records.map(record => ({
+                        name: record.fields[nameFieldId] || 'N/A',
+                        gitHubURL: record.fields[gitHubURLFieldId] || 'N/A',
+                        status: record.fields[statusFieldId] || 'N/A',
+                    }));
+                } else {
+                    return [];
+                }
             } catch (error) {
                 console.error('Fetch error:', error);
-                errorMessage.textContent = 'An error occurred while fetching the websites. Please try again.';
+                return [];
             }
         }
+
+        // Event listener for button click
+        document.getElementById('getWebsites').addEventListener('click', async () => {
+            // Get the event code from the input field
+            const eventCode = document.getElementById('event-code').value;
+
+            // Fetch the websites from Airtable
+            const websites = await getWebsitesByEventCode(eventCode);
+
+            // Get the list element to display the results
+            const websiteList = document.getElementById('Status');
+            websiteList.innerHTML = '';
+
+            if (websites.length > 0) {
+                websites.forEach(website => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <strong>Name:</strong> ${website.name || 'N/A'}
+                        <br>
+                        <a href="${website.gitHubURL}" target="_blank">${website.gitHubURL}</a>
+                        <br>
+                        <strong>Status:</strong> ${website.status || 'N/A'}
+                    `;
+                    websiteList.appendChild(listItem);
+                });
+            } else {
+                websiteList.innerHTML = '<li>No websites found for this event code.</li>';
+            }
+        });
     </script>
+
 </body>
 </html>
