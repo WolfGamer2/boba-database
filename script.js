@@ -1,28 +1,45 @@
-const express = require('express');
-const app = express();
+const apiKey = 'your_airtable_api_key';
+const baseId = 'your_airtable_base_id';
+const tableName = 'your_table_name';
 
-let approvedWebsites = [];  // In-memory storage for demo purposes
+// Function to fetch data from Airtable
+async function getWebsitesByEventCode(eventCode) {
+    const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={EventCode}='${eventCode}'&api_key=${apiKey}`;
+    
+    try {
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${apiKey}`,
+            },
+        });
+        const data = await response.json();
+        
+        if (data.records.length > 0) {
+            return data.records.map(record => record.fields.Website); // Assuming "Website" is the field name
+        } else {
+            return [];
+        }
+    } catch (error) {
+        console.error('Error fetching data from Airtable:', error);
+        return [];
+    }
+}
 
-app.use(express.json());
+// Example usage: Display websites for a specific event code
+document.getElementById('getWebsites').addEventListener('click', async () => {
+    const eventCode = document.getElementById('eventCode').value;
+    const websites = await getWebsitesByEventCode(eventCode);
 
-// POST endpoint to receive approved websites from Airtable
-app.post('/api/post-url', (req, res) => {
-    const { url, eventCode } = req.body;
+    const websiteList = document.getElementById('website-list');
+    websiteList.innerHTML = '';
 
-    // Store the approved website with its event code
-    approvedWebsites.push({ url, eventCode });
-
-    res.status(200).send('Website received and stored.');
-});
-
-// GET endpoint to filter websites by event code
-app.get('/api/get-websites/:eventCode', (req, res) => {
-    const eventCode = req.params.eventCode;
-    const filteredWebsites = approvedWebsites.filter(site => site.eventCode === eventCode);
-
-    res.status(200).json(filteredWebsites);
-});
-
-app.listen(3000, () => {
-    console.log('Server running on port 3000');
+    if (websites.length > 0) {
+        websites.forEach(website => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<a href="${website}" target="_blank">${website}</a>`;
+            websiteList.appendChild(listItem);
+        });
+    } else {
+        websiteList.innerHTML = '<li>No websites found for this event code.</li>';
+    }
 });
