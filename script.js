@@ -7,78 +7,11 @@ const gitHubURLFieldId = 'fldiQTbHOJ4Smo2Cx';
 const statusFieldId = 'fldjRo5emakYHTKnY';       
 const nameFieldId = 'fldeAMpKMvhiFAokN';         
 
-async function getWebsitesByEventCode(eventCode) {
-    
-    const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={${eventCodeFieldId}}="${eventCode}"`;
-
-    try {
-        const response = await fetch(url, {
-            headers: {
-                Authorization: `Bearer ${apiKey}`,
-            },
-        });
-        const data = await response.json();
-
-        if (data.records.length > 0) {
-          
-            return data.records.map(record => ({
-                name: record.fields[nameFieldId],          // Name of the person.
-                gitHubURL: record.fields[gitHubURLFieldId], // GitHub Pages URL.
-                status: record.fields[statusFieldId],       // Status of the site.
-            }));
-        } else {
-            return [];
-        }
-    } catch (error) {
-        console.error('Error fetching data from Airtable:', error);
-        return [];
-    }
-}
-
-
-document.getElementById('getWebsites').addEventListener('click', async () => {
-   
-    const eventCode = document.getElementById('event-code').value; 
-
-    
-    const websites = await getWebsitesByEventCode(eventCode);
-
-   
-    const websiteList = document.getElementById('Status'); 
-    websiteList.innerHTML = '';
-
-    if (websites.length > 0) {
-        websites.forEach(website => {
-            const listItem = document.createElement('li');
-            
-            listItem.innerHTML = `
-                <strong>Name:</strong> ${website.name || 'N/A'}
-                <br>
-                <a href="${website.gitHubURL}" target="_blank">${website.gitHubURL}</a>
-                <br>
-                <strong>Status:</strong> ${website.status || 'N/A'}
-            `;
-            websiteList.appendChild(listItem);
-        });
-    } else {
-        websiteList.innerHTML = '<li>No websites found for this event code.</li>';
-    }
-});
-
+// get web from Airtable based on the event code
 async function getWebsitesByEventCode(eventCode) {
     const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={${eventCodeFieldId}}="${eventCode}"`;
 
-    try {
-        const response = await fetch(url, {
-            headers: {
-                Authorization: `Bearer ${apiKey}`,
-            },
-        });
-
-async function getWebsitesByEventCode(eventCode) {
-    const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={${eventCodeFieldId}}="${eventCode}"`;
-
-    console.log('Fetching URL:', url); // Log the URL to check its correctness
+    console.log('Fetching URL:', url); 
 
     try {
         const response = await fetch(url, {
@@ -104,8 +37,35 @@ async function getWebsitesByEventCode(eventCode) {
         }
     } catch (error) {
         console.error('Fetch error:', error);
-        errorMessage.textContent = 'An error occurred while fetching the websites. Please try again.';
         return [];
     }
 }
 
+
+document.getElementById('getWebsites').addEventListener('click', async () => {
+    
+    const eventCode = document.getElementById('event-code').value; 
+
+    // get da websites from airtable
+    const websites = await getWebsitesByEventCode(eventCode);
+
+    
+    const websiteList = document.getElementById('Status'); 
+    websiteList.innerHTML = '';
+
+    if (websites.length > 0) {
+        websites.forEach(website => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <strong>Name:</strong> ${website.name || 'N/A'}
+                <br>
+                <a href="${website.gitHubURL}" target="_blank">${website.gitHubURL}</a>
+                <br>
+                <strong>Status:</strong> ${website.status || 'N/A'}
+            `;
+            websiteList.appendChild(listItem);
+        });
+    } else {
+        websiteList.innerHTML = '<li>No websites found for this event code.</li>';
+    }
+});
