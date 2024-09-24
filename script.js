@@ -1,6 +1,6 @@
-const apiKey = 'your_airtable_api_key';
-const baseId = 'your_airtable_base_id';
-const tableName = 'your_table_name';
+const apiKey = 'pat84MLj08BHlZkVu.3971198ea6ee84cd5bf55710e507afa0a273d20c5c0e3c1724b4f4d01c285966';
+const baseId = 'app05mIKwNPO2l1vT';
+const tableName = 'Boba - YSWS';
 
 // Function to fetch data from Airtable
 async function getWebsitesByEventCode(eventCode) {
