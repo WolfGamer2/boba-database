@@ -11,7 +11,8 @@ const nameFieldId = 'fldeAMpKMvhiFAokN';
 const ADMIN_PASSWORD = "boba2024";
 
 async function getWebsitesByEventCode(eventCode) {
-    const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={${eventCodeFieldId}}="${eventCode}"`;
+    //const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={${eventCodeFieldId}}="${eventCode}"`;
+    const url = 'https://airtable.com/app05mIKwNPO2l1vT/shr5gGrslznQoN5Jd';
 
     try {
         const response = await fetch(url, {
