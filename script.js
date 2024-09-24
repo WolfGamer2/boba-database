@@ -16,11 +16,13 @@ async function getWebsitesByEventCode(eventCode) {
 
 
     try {
-        const response = await fetch(url, {
-            headers: {
-                Authorization: `Bearer ${apiKey}`,
-            },
-        });
+      const response = await fetch(url, {
+    headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json' // This header can sometimes help with CORS
+    },
+});
+
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
