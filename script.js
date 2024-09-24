@@ -77,7 +77,8 @@ async function getAllWebsites() {
 async function updateConnectionStatus() {
     const connectionStatus = document.getElementById('connection-status');
     try {
-        const response = await fetch(`https://api.airtable.com/v0/${baseId}/${tableName}`, {
+        //const response = await fetch(`https://api.airtable.com/v0/${baseId}/${tableName}`, {
+        const response = await fetch('https://airtable.com/app05mIKwNPO2l1vT/tblVV0tpvZnQWcsH4/viwvT9kq4di2Uqrto', {
             headers: {
                 Authorization: `Bearer ${apiKey}`,
             },
