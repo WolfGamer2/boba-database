@@ -2,7 +2,7 @@ const apiKey = 'pat84MLj08BHlZkVu.3971198ea6ee84cd5bf55710e507afa0a273d20c5c0e3c
 const baseId = 'app05mIKwNPO2l1vT';
 const tableName = 'Boba - YSWS';
 
-// Function to fetch websites from Airtable based on the event code
+// Airtables websites
 async function getWebsitesByEventCode(eventCode) {
     const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={Event%20Code}="${eventCode}"`;
 
@@ -15,7 +15,7 @@ async function getWebsitesByEventCode(eventCode) {
         const data = await response.json();
 
         if (data.records.length > 0) {
-            return data.records.map(record => record.fields['GitHub Pages URL']); // Adjust 'GitHub Pages URL' to your field name if needed
+            return data.records.map(record => record.fields['GitHub Pages URL']); // Website Url
         } else {
             return [];
         }
@@ -28,13 +28,13 @@ async function getWebsitesByEventCode(eventCode) {
 // Event listener for the button click
 document.getElementById('getWebsites').addEventListener('click', async () => {
     // Get the value from the text box
-    const eventCode = document.getElementById('Event Code').value; // Make sure the input field ID matches
+    const eventCode = document.getElementById('Event Code').value; //Event Codes to see if website exists
 
     // Fetch websites for the entered event code
     const websites = await getWebsitesByEventCode(eventCode);
 
     // Display the websites
-    const websiteList = document.getElementById('Status'); // Make sure this ID exists in your HTML
+    const websiteList = document.getElementById('Status'); // Status of website
     websiteList.innerHTML = '';
 
     if (websites.length > 0) {
