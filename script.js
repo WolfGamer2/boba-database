@@ -64,3 +64,37 @@ document.getElementById('getWebsites').addEventListener('click', async () => {
         websiteList.innerHTML = '<li>No websites found for this event code.</li>';
     }
 });
+
+async function getWebsitesByEventCode(eventCode) {
+    const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={${eventCodeFieldId}}="${eventCode}"`;
+
+    try {
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${apiKey}`,
+            },
+        });
+
+        // Check if response status is OK (200-299)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        if (data.records.length > 0) {
+            return data.records.map(record => ({
+                name: record.fields[nameFieldId] || 'N/A',
+                gitHubURL: record.fields[gitHubURLFieldId] || 'N/A',
+                status: record.fields[statusFieldId] || 'N/A',
+            }));
+        } else {
+            return [];
+        }
+    } catch (error) {
+        console.error('Fetch error:', error); // Log the detailed error message
+        errorMessage.textContent = 'An error occurred while fetching the websites. Please try again.'; // Display a user-friendly message
+        return []; // Return an empty array in case of error
+    }
+}
+
