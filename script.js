@@ -2,10 +2,10 @@ const apiKey = 'pat84MLj08BHlZkVu.3971198ea6ee84cd5bf55710e507afa0a273d20c5c0e3c
 const baseId = 'app05mIKwNPO2l1vT';
 const tableName = 'Boba - YSWS';
 
-const eventCodeFieldId = 'fldJE64wXx0NtfFJY';   // Field ID for "Event Code"
-const gitHubURLFieldId = 'fldiQTbHOJ4Smo2Cx';   // Field ID for "GitHub Pages URL"
-const statusFieldId = 'fldjRo5emakYHTKnY';         // Field ID for "Status"
-const nameFieldId = 'fldeAMpKMvhiFAokN';             // Field ID for "Name"
+const eventCodeFieldId = 'fldJE64wXx0NtfFJY';   
+const gitHubURLFieldId = 'fldiQTbHOJ4Smo2Cx';   
+const statusFieldId = 'fldjRo5emakYHTKnY';       
+const nameFieldId = 'fldeAMpKMvhiFAokN';         
 
 async function getWebsitesByEventCode(eventCode) {
     
