@@ -2,10 +2,10 @@ const apiKey = 'pat84MLj08BHlZkVu.3971198ea6ee84cd5bf55710e507afa0a273d20c5c0e3c
 const baseId = 'app05mIKwNPO2l1vT';
 const tableName = 'Boba - YSWS';
 
-// Function to fetch data from Airtable
+// Function to fetch websites from Airtable based on the event code
 async function getWebsitesByEventCode(eventCode) {
-    const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={EventCode}='${eventCode}'&api_key=${apiKey}`;
-    
+    const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={Event%20Code}='${eventCode}'`;
+
     try {
         const response = await fetch(url, {
             headers: {
@@ -13,9 +13,9 @@ async function getWebsitesByEventCode(eventCode) {
             },
         });
         const data = await response.json();
-        
+
         if (data.records.length > 0) {
-            return data.records.map(record => record.fields.Website); // Assuming "Website" is the field name
+            return data.records.map(record => record.fields.Website); // Adjust 'Website' to your field name if needed
         } else {
             return [];
         }
@@ -25,11 +25,15 @@ async function getWebsitesByEventCode(eventCode) {
     }
 }
 
-// Example usage: Display websites for a specific event code
+// Event listener for the button click
 document.getElementById('getWebsites').addEventListener('click', async () => {
+    // Get the value from the text box
     const eventCode = document.getElementById('eventCode').value;
+
+    // Fetch websites for the entered event code
     const websites = await getWebsitesByEventCode(eventCode);
 
+    // Display the websites
     const websiteList = document.getElementById('website-list');
     websiteList.innerHTML = '';
 
