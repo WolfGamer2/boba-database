@@ -151,3 +151,17 @@ document.getElementById('fetchAll').addEventListener('click', async () => {
 
 // statys
 window.onload = updateConnectionStatus;
+
+async function getToken() {
+    try {
+        const response = await fetch('/test-token');
+        const data = await response.json();
+        console.log('Token from backend:', data.token);
+    } catch (error) {
+        console.error('Error fetching token:', error);
+    }
+}
+
+
+getToken();
+
