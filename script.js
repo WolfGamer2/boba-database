@@ -14,32 +14,31 @@ async function getWebsitesByEventCode(eventCode) {
     const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={${eventCodeFieldId}}="${eventCode}"`;
     try {
       const response = await fetch(url, {
-    headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json' 
-    },
-});
+        headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json' 
+        },
+    });
 
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+    const data = await response.json();
 
-        const data = await response.json();
-
-        if (data.records.length > 0) {
-            return data.records.map(record => ({
-                name: record.fields[nameFieldId] || 'N/A',
-                gitHubURL: record.fields[gitHubURLFieldId] || 'N/A',
-                status: record.fields[statusFieldId] || 'N/A',
-            }));
-        } else {
-            return [];
-        }
-    } catch (error) {
-        console.error('Fetch error:', error);
+    if (data.records.length > 0) {
+        return data.records.map(record => ({
+            name: record.fields[nameFieldId] || 'N/A',
+            gitHubURL: record.fields[gitHubURLFieldId] || 'N/A',
+            status: record.fields[statusFieldId] || 'N/A',
+        }));
+    } else {
         return [];
     }
+  } catch (error) {
+      console.error('Fetch error:', error);
+      return [];
+  }
 }
 
 async function getAllWebsites() {
