@@ -11,8 +11,8 @@ const nameFieldId = 'fldeAMpKMvhiFAokN';
 const ADMIN_PASSWORD = "boba2024";
 
 async function getWebsitesByEventCode(eventCode) {
-    const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={${eventCodeFieldId}}="${eventCode}"`;
-
+    //const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula={${eventCodeFieldId}}="${eventCode}"`;
+    const url = `https://airtable.com/app05mIKwNPO2l1vT/shr5gGrslznQoN5Jd"`;
     try {
       const response = await fetch(url, {
     headers: {
@@ -44,7 +44,8 @@ async function getWebsitesByEventCode(eventCode) {
 }
 
 async function getAllWebsites() {
-    const url = `https://api.airtable.com/v0/${baseId}/${tableName}`;
+    //const url = `https://api.airtable.com/v0/${baseId}/${tableName}`;
+     const url = `https://airtable.com/app05mIKwNPO2l1vT/shr5gGrslznQoN5Jd`;
 
     try {
         const response = await fetch(url, {
@@ -78,7 +79,7 @@ async function getAllWebsites() {
 async function updateConnectionStatus() {
     const connectionStatus = document.getElementById('connection-status');
     try {
-        const response = await fetch(`https://api.airtable.com/v0/${baseId}/${tableName}`, {
+        const response = await fetch(`https://airtable.com/app05mIKwNPO2l1vT/shr5gGrslznQoN5Jd`, {
             headers: {
                 Authorization: `Bearer ${apiKey}`,
             },
