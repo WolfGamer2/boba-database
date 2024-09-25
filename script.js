@@ -1,4 +1,4 @@
-const apiKey = 'pat84MLj08BHlZkVu.87f94a21eafef0884ffa0e4ba1c822e4744fd35687c9bd71202f1b9038d5e705';
+const apiKey = 'patElzckNGBWBoxdu.60f140f462fabcd2312e47f5ad08a73644bd9a5c1bd76659c7533adce0182699';
 const baseId = 'app05mIKwNPO2l1vT';
 const tableName = 'Boba - YSWS';
 
