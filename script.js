@@ -7,7 +7,7 @@ const gitHubURLFieldId = 'fldiQTbHOJ4Smo2Cx';
 const statusFieldId = 'fldjRo5emakYHTKnY';       
 const nameFieldId = 'fldeAMpKMvhiFAokN';         
 
-// Admin password 
+
 const ADMIN_PASSWORD = "boba2024";
 
 async function getWebsitesByEventCode(eventCode) {
@@ -89,7 +89,7 @@ async function updateConnectionStatus() {
     }
 }
 
-// User Lookup
+
 document.getElementById('getWebsites').addEventListener('click', async () => {
     const eventCode = document.getElementById('event-code').value;
     const websites = await getWebsitesByEventCode(eventCode);
@@ -113,7 +113,7 @@ document.getElementById('getWebsites').addEventListener('click', async () => {
     }
 });
 
-// Admin Login
+// Admin stuff
 document.getElementById('loginAdmin').addEventListener('click', () => {
     const password = document.getElementById('admin-password').value;
     if (password === ADMIN_PASSWORD) {
@@ -124,7 +124,7 @@ document.getElementById('loginAdmin').addEventListener('click', () => {
     }
 });
 
-// Fetch All Websites
+// get websites
 document.getElementById('fetchAll').addEventListener('click', async () => {
     const websites = await getAllWebsites();
     const adminStatusList = document.getElementById('adminStatus');
@@ -149,5 +149,5 @@ document.getElementById('fetchAll').addEventListener('click', async () => {
     }
 });
 
-// Update connection status on window load
+// statys
 window.onload = updateConnectionStatus;
