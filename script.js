@@ -46,7 +46,8 @@ async function getWebsitesByEventCode(eventCode) {
 }
 
 async function getAllWebsites() {
-    const url = `https://api.airtable.com/v0/${baseId}/${tableName}`;
+    //const url = `https://api.airtable.com/v0/${baseId}/${tableName}`;
+    const url = `https://api.airtable.com/v0/app05mIKwNPO2l1vT/Boba%20-%20YSWS`;
 
     try {
         const response = await fetch(url, {
